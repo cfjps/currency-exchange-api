@@ -5,9 +5,9 @@ phases:
         python: 3.8
   build:
     commands:
-      - sam package --template-file template.yaml --s3-bucket currency-exchange-api-sam --output-template-file packaged-template.yml
-      - sam package --template-file template.yaml --s3-bucket aws-sam-cli-bucket-forex-api --region eu-west-2 --output-template-file packaged-template-london.yml
+      - sam package --template-file template.yaml --s3-bucket aws-sam-cli-bucket-forex-api-ireland --region eu-west-1 --output-template-file packaged-template-eu-west.yml
+      - sam package --template-file template.yaml --s3-bucket aws-sam-cli-bucket-forex-api-germany --region eu-central-2 --output-template-file packaged-template-eu-central.yml
 artifacts:
   files:
-    - packaged-template.yml
-    - packaged-template-london.yml
+    - packaged-template-eu-west.yml
+    - packaged-template-eu-central.yml
