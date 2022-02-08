@@ -1,12 +1,19 @@
 version: 0.2
+env:
+  variables:
+    REGION_1: eu-west-1
+    REGION_2: eu-central-1
+    S3_BUCKET_REGION_1: aws-sam-cli-bucket-forex-api-ireland
+    S3_BUCKET_REGION_2: aws-sam-cli-bucket-forex-api-germany
+
 phases:
   install:
     runtime-versions:
         nodejs: 12
   build:
     commands:
-      - sam package --template-file template.yaml --s3-bucket aws-sam-cli-bucket-forex-api-ireland --region eu-west-1 --output-template-file packaged-template-eu-west.yml
-      - sam package --template-file template.yaml --s3-bucket aws-sam-cli-bucket-forex-api-germany --region eu-central-1 --output-template-file packaged-template-eu-central.yml
+      - sam package --template-file template.yaml --s3-bucket ${S3_BUCKET_REGION_1} --region ${REGION_1} --output-template-file packaged-template-eu-west.yml
+      - sam package --template-file template.yaml --s3-bucket ${S3_BUCKET_REGION_2} --region ${REGION_2} --output-template-file packaged-template-eu-central.yml
 artifacts:
   files:
     - packaged-template-eu-west.yml
