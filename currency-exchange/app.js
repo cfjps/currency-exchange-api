@@ -1,37 +1,31 @@
-// const axios = require('axios')
-// const url = 'http://checkip.amazonaws.com/';
 let response;
 
-/**
- *
- * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
- * @param {Object} event - API Gateway Lambda Proxy Input Format
- *
- * Context doc: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html 
- * @param {Object} context
- *
- * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
- * @returns {Object} object - API Gateway Lambda Proxy Output Format
- * 
- */
 const {getCurrencyExchangeRate} = require('./external-api-calls/currencyExchangeRate');
 const {getLocalCurrency} = require('./external-api-calls/getLocalCurrency');
+const {convertProductPrice} = require('./controllers/convertPriceToCurrencyRate');
 
 exports.lambdaHandler = async (event, context) => {
     try {
         const localCurrency = await getLocalCurrency(event);
         const rate = await getCurrencyExchangeRate(localCurrency)
-        
+        const convertedProductPrice = convertProductPrice(rate)
+    
         response = {
             'statusCode': 200,
             'body': JSON.stringify({
                 'local_currency': localCurrency,
-                'usd_to_local_rate': rate
+                'usd_to_local_rate': rate,
+                'converted_price': convertedProductPrice
             })
         }
     } catch (err) {
         console.log(err);
-        return err;
+        response = {
+            'statusCode': 400,
+            'body': JSON.stringify({
+            'message': 'ERROR - View Cloud Watch for more information'    
+            })
+        }
     }
 
     return response

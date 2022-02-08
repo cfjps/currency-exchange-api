@@ -10,7 +10,8 @@ async function getLocalCurrency(event){
         
         return localCurrency;
     } catch {
-        return 'USD';
+        console.log(error);
+        return error;
     }
     
 }
