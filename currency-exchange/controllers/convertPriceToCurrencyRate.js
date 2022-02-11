@@ -2,7 +2,7 @@
 const DATA = {
     'id': 10001,
     'product_name': 'Black Reebok T-Shirt',
-    'product_price': 39.99
+    'product_price': 70.49
 }
 
 function convertProductPrice(exchangeRate){
