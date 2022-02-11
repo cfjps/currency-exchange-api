@@ -10,16 +10,6 @@ Globals:
 
 Resources:
 
-  CurrencyExchangeAPI:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: Prod
-      Auth:
-        DefaultAuthorizer: LambdaTokenAuhtorizer
-        Authorizers:
-          LambdaTokenAuhtorizer:
-            FunctionArn: !GetAtt CurrencyAuthFunction.Arn
-
   ForexAPIFunction:
     Type: AWS::Serverless::Function 
     Properties:
@@ -30,7 +20,6 @@ Resources:
         ForexAPI:
           Type: Api 
           Properties:
-            RestApiId: !Ref CurrencyExchangeAPI
             Path: /currency-exchange-rate
             Method: get
             
@@ -45,7 +34,7 @@ Resources:
 Outputs:
   ForexApi:
     Description: "API Gateway endpoint URL for Prod stage for Forex API Gateway"
-    Value: !Sub "https://${CurrencyExchangeAPI}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
   ForexAPIFunction:
     Description: "Forex API Lambda Function ARN"
     Value: !GetAtt ForexAPIFunction.Arn

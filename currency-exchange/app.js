@@ -15,7 +15,8 @@ exports.lambdaHandler = async (event, context) => {
             'body': JSON.stringify({
                 'local_currency': localCurrency,
                 'usd_to_local_rate': rate,
-                'converted_price': convertedProductPrice
+                'converted_price': convertedProductPrice,
+                'version': '1'
             })
         }
     } catch (err) {
